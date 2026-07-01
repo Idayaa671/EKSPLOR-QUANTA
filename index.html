@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mode Eksplorasi — QUANTA</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+<div class="bg-grid" aria-hidden="true"></div>
+
+<!-- ===================== LAYAR AWAL (BERANDA) ===================== -->
+<section id="layarAwal" class="landing">
+
+  <button id="btnTemaAwal" class="btn-tema" type="button" aria-label="Ganti tema gelap/terang">🌙</button>
+
+  <div class="landing-inner">
+
+    <p class="eyebrow">QUANTA · EKSPLOR GRAFIK</p>
+
+    <h1 class="landing-title">Pahami Fungsi Kuadrat,<br>Bukan Sekadar Menghafal Rumus</h1>
+
+    <p class="landing-sub">
+      Geser angkanya, lihat kurvanya berubah seketika, lalu baca cara hitungnya langkah demi langkah.
+    </p>
+
+    <div class="landing-visual" aria-hidden="true">
+      <svg viewBox="0 0 320 190" class="mini-parabola">
+        <line x1="10" y1="155" x2="310" y2="155" class="mini-axis"/>
+        <line x1="160" y1="10" x2="160" y2="185" class="mini-axis"/>
+        <path d="M 35 150 Q 160 -10 285 150" class="mini-curve"/>
+        <circle cx="160" cy="34" r="6" class="mini-dot-vertex"/>
+        <circle cx="84" cy="150" r="5" class="mini-dot-root"/>
+        <circle cx="236" cy="150" r="5" class="mini-dot-root"/>
+        <circle cx="160" cy="155" r="5" class="mini-dot-y"/>
+      </svg>
+      <p class="mini-caption">y = ax² + bx + c — bentuknya berubah mengikuti angka yang kamu geser</p>
+    </div>
+
+    <div class="landing-choice">
+      <button id="btnKePanduan" class="btn-choice" type="button">
+        <span class="choice-icon">📖</span>
+        <span class="choice-text">
+          <span class="choice-title">Langkah Menggunakan</span>
+          <span class="choice-desc">Panduan singkat sebelum mulai</span>
+        </span>
+      </button>
+      <button id="btnMulai" class="btn-choice btn-choice-primary" type="button">
+        <span class="choice-icon">🚀</span>
+        <span class="choice-text">
+          <span class="choice-title">Mulai Eksplorasi</span>
+          <span class="choice-desc">Langsung ke alat interaktif</span>
+        </span>
+      </button>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ===================== LAYAR PANDUAN ===================== -->
+<section id="layarPanduan" class="landing hidden">
+
+  <button id="btnKeAwalDariPanduan" class="btn-kembali" type="button" aria-label="Kembali ke beranda">← Beranda</button>
+
+  <div class="landing-inner">
+
+    <p class="eyebrow">CARA MENGGUNAKAN</p>
+    <h1 class="landing-title">3 Langkah Sebelum Mulai</h1>
+    <p class="landing-sub">Tidak perlu mengetik banyak, cukup geser dan baca.</p>
+
+    <div class="landing-steps">
+      <div class="step">
+        <span class="step-num">1</span>
+        <p>Geser slider <b>a, b, c</b> pada persamaan — atau ketik fungsinya langsung di kotak teks.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">2</span>
+        <p>Grafik dan hasil analisis (titik puncak, akar, domain, dll) ikut berubah otomatis secara langsung.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">3</span>
+        <p>Gulir ke bawah untuk lihat <b>Cara Pengerjaan</b> lengkap, lalu unduh hasilnya sebagai PDF.</p>
+      </div>
+    </div>
+
+    <button id="btnMulaiDariPanduan" class="btn-primary btn-besar" type="button">Mulai Eksplorasi →</button>
+
+  </div>
+
+</section>
+
+<!-- ===================== LAYAR LAB (APLIKASI) ===================== -->
+<div id="layarLab" class="hidden">
+
+  <button id="btnTema" class="btn-tema" type="button" aria-label="Ganti tema gelap/terang">🌙</button>
+  <button id="btnKeAwal" class="btn-kembali" type="button" aria-label="Kembali ke halaman awal">← Beranda</button>
+
+  <header class="topbar">
+    <p class="eyebrow">MODE EKSPLORASI · QUANTA</p>
+    <h1>Jelajahi Fungsi Kuadrat</h1>
+    <p class="subtitle">Geser angkanya, lihat grafiknya berubah seketika.</p>
+  </header>
+
+  <main>
+
+    <section class="card equation-bar" aria-label="Persamaan interaktif">
+
+      <div class="equation-row">
+
+        <span class="eq-y">y&nbsp;=</span>
+
+        <div class="coef-chip" data-coef="a" title="a mengatur lebar &amp; arah buka parabola">
+          <input type="number" id="numA" class="coef-number coef-a" value="1" step="0.1" aria-label="Nilai koefisien a">
+          <input type="range" id="sliderA" class="coef-slider coef-a" min="-10" max="10" step="0.1" value="1" aria-label="Slider koefisien a">
+        </div>
+        <span class="eq-term">x²</span>
+
+        <span class="eq-op">+</span>
+
+        <div class="coef-chip" data-coef="b" title="b menggeser sumbu simetri">
+          <input type="number" id="numB" class="coef-number coef-b" value="0" step="0.1" aria-label="Nilai koefisien b">
+          <input type="range" id="sliderB" class="coef-slider coef-b" min="-10" max="10" step="0.1" value="0" aria-label="Slider koefisien b">
+        </div>
+        <span class="eq-term">x</span>
+
+        <span class="eq-op">+</span>
+
+        <div class="coef-chip" data-coef="c" title="c adalah titik potong sumbu Y">
+          <input type="number" id="numC" class="coef-number coef-c" value="0" step="0.1" aria-label="Nilai koefisien c">
+          <input type="range" id="sliderC" class="coef-slider coef-c" min="-10" max="10" step="0.1" value="0" aria-label="Slider koefisien c">
+        </div>
+
+      </div>
+
+      <div class="equation-actions">
+        <button id="btnAcak" class="btn-ghost" type="button">🎲 Acak</button>
+        <button id="btnReset" class="btn-ghost" type="button">↺ Reset</button>
+      </div>
+
+      <p id="pesanNudge" class="pesan-nudge hidden"></p>
+
+      <div class="typed-input-row">
+        <label for="inputFungsi">Atau ketik langsung</label>
+        <div class="typed-input-controls">
+          <input type="text" id="inputFungsi" placeholder="contoh: y = 2x^2 - 4x + 1">
+          <button id="btnTerapkan" class="btn-primary" type="button">Terapkan</button>
+        </div>
+        <p id="pesanError" class="pesan-error hidden"></p>
+      </div>
+
+    </section>
+
+    <section class="content-grid">
+
+      <div class="card graph-card">
+        <div class="card-header-row">
+          <h2>Grafik</h2>
+          <button id="btnUnduhGrafik" class="btn-ghost btn-kecil" type="button">💾 Unduh PNG</button>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="grafikEksplorasi" height="320"></canvas>
+        </div>
+        <div class="legend">
+          <span class="legend-item"><i class="dot dot-curve"></i> Kurva</span>
+          <span class="legend-item"><i class="dot dot-vertex"></i> Titik puncak</span>
+          <span class="legend-item"><i class="dot dot-root"></i> Titik potong X</span>
+          <span class="legend-item"><i class="dot dot-y"></i> Titik potong Y</span>
+        </div>
+      </div>
+
+      <div class="card analysis-card">
+        <h2>Analisis</h2>
+        <div id="hasilAnalisis" class="analysis-list"></div>
+      </div>
+
+    </section>
+
+    <section class="card langkah-card">
+      <div class="langkah-header">
+        <h2>📖 Cara Pengerjaan</h2>
+        <div class="langkah-actions">
+          <button id="btnSalin" class="btn-ghost" type="button">📋 Salin</button>
+          <button id="btnUnduhPDF" class="btn-primary" type="button">📄 Unduh PDF</button>
+        </div>
+      </div>
+      <div id="langkahPengerjaan" class="langkah-list"></div>
+    </section>
+
+    <section class="card riwayat-card">
+      <h2>Riwayat Eksplorasi</h2>
+      <p class="riwayat-kosong" id="riwayatKosong">Fungsi yang sudah dijelajahi akan muncul di sini, klik untuk membandingkan.</p>
+      <div id="riwayatList" class="riwayat-list"></div>
+    </section>
+
+  </main>
+
+  <footer class="app-credit">by Idayya671</footer>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
